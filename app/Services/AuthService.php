@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Services;
-use Illuminate\Support\Facades\Auth;
-use App\Exceptions\LaravelBaseApiException;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use App\Exceptions\LaravelBaseApiException;
 
 class AuthService
 {
