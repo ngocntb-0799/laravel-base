@@ -32,7 +32,10 @@ class AuthController extends Controller
     {
         $user = $this->authService->signup($request->all());
 
-        return response()->json(['success'=>$user]);
+        return response()->json([
+            'message' => trans('auth.success'),
+            'data' => $user
+        ]);
     }
 
     /**

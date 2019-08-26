@@ -19,8 +19,9 @@ class AuthService
     {
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['token'] =  $user->createToken('MyApp')->accessToken;
         $success['name'] =  $user->name;
+        $success['email'] =  $user->email;
+        $success['token'] =  $user->createToken('MyApp')->accessToken;
 
         return $success;
     }
