@@ -21,7 +21,6 @@ class AuthService
         $user = User::create($input);
         $success['name'] =  $user->name;
         $success['email'] =  $user->email;
-        $success['token'] =  $user->createToken('MyApp')->accessToken;
 
         return $success;
     }
