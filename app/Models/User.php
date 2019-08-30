@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -38,4 +38,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = ['email_verified_at' => 'datetime'];
+
+
+    /**
+     * Set the "password" attribute.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
 }

@@ -30,6 +30,8 @@ class AuthService
      *
      * @param  array  $request
      *
+     * @throws LaravelBaseApiException
+     *
      * @return mixd
      */
     public function login($request)

@@ -59,7 +59,7 @@ class AuthServiceTest extends TestCase
         $userTest = factory(User::class)->create([
             'name' => 'Nguyen Ngoc',
             'email' => 'nguyen.thi.bich.ngoc@sun-asterisk.com',
-            'password' => bcrypt('Aa@123456'),
+            'password' => 'Aa@123456',
         ]);
         $request = new LoginRequest();
         $request['email'] = 'nguyen.thi.bich.ngoc@sun-asterisk.com';
@@ -73,6 +73,8 @@ class AuthServiceTest extends TestCase
      *
      * @test
      *
+     * @expectException LaravelBaseApiException
+     *
      * @return void
      */
     public function login_fail()
@@ -80,12 +82,12 @@ class AuthServiceTest extends TestCase
         $userTest = factory(User::class)->create([
             'name' => 'Nguyen Ngoc',
             'email' => 'nguyen.thi.bich.ngoc@sun-asterisk.com',
-            'password' => bcrypt('Aa@123456'),
+            'password' => 'Aa@123456',
         ]);
         $request = new LoginRequest();
         $request['email'] = 'nguyen.thi.bich.ngoc@sun-asterisk.com';
         $request['password'] = 'Aa@12';
-        $this->expectException(LaravelBaseApiException::class);
+        $this->expectExceptionMessage('Unauthorized, please check your credentials.');
         $response = $this->authService->login($request);
     }
 }

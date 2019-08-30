@@ -21,16 +21,16 @@ class AuthControllerTest extends TestCase
     {
         $userTest = [
             'name' => 'Nguyen Ngoc',
-            'email' => 'nguyenngoc1@gmail.com',
+            'email' => 'nguyenngoc.hust.97@gmail.com',
             'password' => 'Aa@123456',
         ];
         $response = $this->json('POST', '/api/signup', $userTest);
         $response->assertStatus(200)
-            ->assertJsonStructure([
-                'message',
+            ->assertJson([
+                'message' => 'success',
                 'data' => [
-                    'name',
-                    'email'
+                    'name' => 'Nguyen Ngoc',
+                    'email' => 'nguyenngoc.hust.97@gmail.com'
                 ]
             ]);
     }
@@ -40,19 +40,19 @@ class AuthControllerTest extends TestCase
      *
      * @test
      *
-     * @param array $userDataTest
-     * @param array $responseTest
+     * @param array $userData
+     * @param array $response
      *
      * @dataProvider providerTestSignupFail
      *
      * @return void
      */
-    public function signup_a_user_fail($userDataTest, $responseTest)
+    public function signup_a_user_fail($userData, $responseData)
     {
-        $response = $this->post('/api/signup', $userDataTest);
+        $response = $this->post('/api/signup', $userData);
 
         $response->assertStatus(400)
-            ->assertJson($responseTest);
+            ->assertJson($responseData);
     }
 
     /**
@@ -64,17 +64,13 @@ class AuthControllerTest extends TestCase
      */
     public function login_user_success()
     {
-        $user = factory(User::class)->create([
-            'name' => 'Nguyen Ngoc',
-            'email' => 'nguyen.thi.bich.ngoc@sun-asterisk.com',
-            'password' => bcrypt('Aa@123456'),
-        ]);
+        $passwordTest = 'Aa@123456';
+        $userTest = factory(User::class)->create(['password' => $passwordTest]);
         $response = $this->json('POST', '/api/login', [
-            'email' => 'nguyen.thi.bich.ngoc@sun-asterisk.com',
-            'password' => 'Aa@123456'
+            'email' => $userTest->email,
+            'password' => $passwordTest
         ]);
-        $response
-            ->assertStatus(200)
+        $response->assertStatus(200)
             ->assertJsonStructure([
                 'success' => [
                     'user_name',
@@ -121,6 +117,11 @@ class AuthControllerTest extends TestCase
         ]);
     }
 
+    /**
+     * Data provider test signup fail.
+     *
+     * @return array
+     */
     public function providerTestSignupFail()
     {
         return [
@@ -196,6 +197,12 @@ class AuthControllerTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * Data provider test login fail.
+     *
+     * @return array
+     */
     public function providerTestLoginFail()
     {
         return [
