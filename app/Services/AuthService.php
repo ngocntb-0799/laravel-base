@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Exceptions\LaravelBaseApiException;
@@ -18,7 +19,7 @@ class AuthService
     public function signup($input)
     {
         $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
+        $user = User::create($input)->assignRole(Role::MEMBER);
         $success['name'] =  $user->name;
         $success['email'] =  $user->email;
 

@@ -17,4 +17,5 @@ Route::post('signup', 'AuthController@signup');
 
 Route::group(['middleware' => 'auth:api'], function(){
     Route::post('logout', 'AuthController@logout');
+    Route::resource('users', 'UserController');
 });
