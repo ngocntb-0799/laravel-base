@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Arr;
+use App\Jobs\SendWelcomeEmail;
 
 class UserService
 {
@@ -30,6 +31,7 @@ class UserService
     public function createUser($input)
     {
         $user = User::create($input)->assignRole(Role::MEMBER);
+        SendWelcomeEmail::dispatch($user);
 
         return $this->getCollectionUser($user);
     }
